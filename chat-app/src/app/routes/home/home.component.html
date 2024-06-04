@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2 class="text-center text-dark mt-5">
+                Chào mừng bạn !!!!!!!!!!!!!!!!!!
+            </h2>
+
+            <div class="card my-5">
+                <form (submit)="createRoom()" class="card-body cardbody-color p-lg-5">
+                    <div class="text-center">
+                        <img src="assets/stickers-with-numbers.jpg"
+                            class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" width="200px"
+                            alt="image">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3 mb-3">
+                            <span class="p-2">Tên hiển thị</span>
+
+                        </div>
+
+                        <div class="col-9">
+                            <input class="col-8" type="text" name="username" [(ngModel)]="username"
+                                aria-describedby="emailHelp" placeholder="Nhập tên của bạn">
+                        </div>
+
+                        <div class="col-3 mb-3">
+                            <span class="p-2">Id phòng</span>
+                        </div>
+
+                        <div class="col-9">
+                            <input class="col-8" type="text" name="ramdomnumber" [(ngModel)]="randomIdRoom"
+                                disabled="true">
+                            <span style="cursor: pointer;" class="col-2" (click)="getRandomNumbers()"
+                                class="fa-solid fa-dice ps-3"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-around">
+                        <button type="button" class="btn btn-primary btn-block mt-4 mr-2 w-100" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            Tìm phòng
+                        </button>
+                        <button type="submit" class="btn btn-success btn-block mt-4 w-100">Tạo phòng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-search-room (saveModal)="searchRoom($event)"></app-search-room>
