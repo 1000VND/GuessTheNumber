@@ -22,7 +22,7 @@ export class ChatComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.chatService.messages$.subscribe(res => {
+    this.chatService.messagesTest.subscribe(res => {
       this.messages = res;
     });
 

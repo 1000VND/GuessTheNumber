@@ -1,6 +1,5 @@
 ﻿using ChapAppAPI.Entities;
 using Microsoft.AspNetCore.SignalR;
-using System.Data.Common;
 
 namespace ChapAppAPI.Services
 {
@@ -30,7 +29,7 @@ namespace ChapAppAPI.Services
 
             _connection[Context.ConnectionId] = userRoomConnection;
 
-            await Clients.Group(userRoomConnection.Room!).SendAsync("ReceiveMessage", "Chào mừng ", $"{userRoomConnection.User} đến với phòng chat");
+            await Clients.Group(userRoomConnection.Room!).SendAsync("ReceiveMessage", userRoomConnection.User, DateTime.Now);
 
             await SendConnectionUser(userRoomConnection.Room!);
         }
@@ -42,7 +41,7 @@ namespace ChapAppAPI.Services
                 return base.OnDisconnectedAsync(exception);
             }
 
-            Clients.Group(userRoomConnection.Room!).SendAsync("ReceiveMessage", "Tạm biệt", $"{userRoomConnection.User} đã rời phòng chat");
+            Clients.Group(userRoomConnection.Room!).SendAsync("ReceiveMessage", userRoomConnection.User, DateTime.Now);
 
             SendConnectionUser(userRoomConnection.Room!);
 

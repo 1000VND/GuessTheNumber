@@ -35,7 +35,7 @@
       </div>
       <div class="mesgs">
         <div #scrollMe class="msg_history">
-          <ng-container *ngFor="let message of chatService.messages$ | async">
+          <ng-container *ngFor="let message of chatService.messagesTest | async">
             <div
               [ngClass]="{'incoming_msg': message.user != loggedInUserName, 'outgoing_msg': message.user === loggedInUserName}">
               <div *ngIf="message.user != loggedInUserName" class="incoming_msg_img">
@@ -44,12 +44,12 @@
               <div *ngIf="message.user != loggedInUserName" class="received_msg">
                 <div class="received_withd_msg">
                   <p> {{message.message}}</p>
-                  <span class="time_date">{{message.user}} | {{message.messageTime | date: 'medium'}}</span>
+                  <span class="time_date">{{message.user}} đã gửi lúc {{message.messageTime | date: 'dd MM yyyy HH:mm aa'}}</span>
                 </div>
               </div>
               <div *ngIf="message.user === loggedInUserName" class="sent_msg">
                 <p>{{message.message}}</p>
-                <span class="time_date">{{message.user}} | {{message.messageTime | date: 'medium'}}</span>
+                <span class="time_date">{{message.user}} đã gửi lúc {{message.messageTime | date: 'dd MM yyyy HH:mm aa'}}</span>
               </div>
             </div>
           </ng-container>

@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'home',
@@ -18,7 +19,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private chatService: ChatService
   ) { }
 
   ngOnInit() {
@@ -50,7 +52,7 @@ export class HomeComponent implements OnInit {
     this.data.username = this.username;
     this.data.idRoom = this.randomIdRoom;
 
-    this.router.navigate(['/chat'], { queryParams: this.data });
+    this.joinRoom(this.data.username, this.data.idRoom)
   }
 
   searchRoom(event: any) {
@@ -72,6 +74,20 @@ export class HomeComponent implements OnInit {
     }
 
     this.searchIdRoom = event;
+    this.joinRoom(this.username, this.searchIdRoom)
+
+  }
+
+  joinRoom(user: string, room: string) {
+    sessionStorage.setItem("user", user);
+    sessionStorage.setItem("room", room);
+    this.chatService.joinRoom(user, room)
+      .then(() => {
+        this.router.navigate(['/chat']);
+      }).catch((err) => {
+        console.log(err);
+      });
+
   }
 
 }

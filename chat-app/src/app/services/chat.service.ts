@@ -6,26 +6,36 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ChatService {
-  hubConnection: signalR.HubConnection;
-  public messages$ = new BehaviorSubject<any>([]);
+  hubConnection: signalR.HubConnection = new signalR.HubConnectionBuilder()
+    // .withUrl('http://26.14.128.17:5001/chathub')
+    .withUrl('http://26.113.177.85:5001/chathub')
+    // .withUrl('http://localhost:5001/chathub')
+    .configureLogging(signalR.LogLevel.Information)
+    .build();
+
+  public messagesTest = new BehaviorSubject<any>([]);
   public connectedUsers$ = new BehaviorSubject<string[]>([]);
   public messages: any[] = [];
   public users: string[] = [];
 
   constructor() {
-    this.hubConnection = new signalR.HubConnectionBuilder()
-      // .withUrl('http://26.14.128.17:5001/chathub')
-      .withUrl('http://localhost:5001/chathub')
-      .configureLogging(signalR.LogLevel.Information)
-      .build();
+    this.start();
 
-    this.hubConnection.start().catch(err => console.error(err));
+    this.hubConnection.on("ReceiveMessage", (user: string, message: string, messageTime: string) => {
+      this.messages = [...this.messages, { user, message, messageTime }];
+      this.messagesTest.next(this.messages);
+    });
+
+    this.hubConnection.on("ConnectedUser", (users: any) => {
+      this.connectedUsers$.next(users);
+    });
+
   }
 
-  public async start() {
+  async start() {
     try {
       await this.hubConnection.start();
-      console.log("Connection is established!")
+      console.log("Kết nối SignalR thành công");
     } catch (error) {
       console.log(error);
     }
