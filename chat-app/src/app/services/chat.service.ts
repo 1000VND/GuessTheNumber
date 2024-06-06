@@ -8,8 +8,8 @@ import { BehaviorSubject } from 'rxjs';
 export class ChatService {
   hubConnection: signalR.HubConnection = new signalR.HubConnectionBuilder()
     // .withUrl('http://26.14.128.17:5001/chathub')
-    .withUrl('http://26.113.177.85:5001/chathub')
-    // .withUrl('http://localhost:5001/chathub')
+    // .withUrl('http://26.113.177.85:5001/chathub')
+    .withUrl('http://localhost:5001/chathub')
     .configureLogging(signalR.LogLevel.Information)
     .build();
 
