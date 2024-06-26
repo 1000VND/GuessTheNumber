@@ -6,10 +6,10 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ChatService {
-  public hubConnection: signalR.HubConnection = new signalR.HubConnectionBuilder()
-    .withUrl('http://172.18.224.1:5001/chathub')
+  hubConnection: signalR.HubConnection = new signalR.HubConnectionBuilder()
+    // .withUrl('http://26.14.128.17:5001/chathub')
     // .withUrl('http://26.113.177.85:5001/chathub')
-    // .withUrl('http://localhost:5001/chathub')
+    .withUrl('http://localhost:5001/chathub')
     .configureLogging(signalR.LogLevel.Information)
     .build();
 
