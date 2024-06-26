@@ -6,7 +6,7 @@
             </h2>
 
             <div class="card my-5">
-                <form (submit)="createRoom()" class="card-body cardbody-color p-lg-5">
+                <div class="card-body cardbody-color p-lg-5">
                     <div class="text-center">
                         <img src="assets/stickers-with-numbers.jpg"
                             class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" width="200px"
@@ -41,9 +41,10 @@
                             data-bs-target="#exampleModal">
                             Tìm phòng
                         </button>
-                        <button type="submit" class="btn btn-success btn-block mt-4 w-100">Tạo phòng</button>
+                        <button (click)="createRoom()" class="btn btn-success btn-block mt-4 w-100">Tạo
+                            phòng</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

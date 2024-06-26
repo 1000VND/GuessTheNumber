@@ -1,4 +1,5 @@
 ﻿using ChapAppAPI.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
 namespace ChapAppAPI.Services
@@ -40,6 +41,8 @@ namespace ChapAppAPI.Services
             {
                 return base.OnDisconnectedAsync(exception);
             }
+
+            _connection.Remove(Context.ConnectionId);
 
             Clients.Group(userRoomConnection.Room!).SendAsync("ReceiveMessage", userRoomConnection.User, DateTime.Now);
 

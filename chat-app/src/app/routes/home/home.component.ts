@@ -14,20 +14,15 @@ export class HomeComponent implements OnInit {
   username: string = '';
   searchIdRoom: string = '';
   data: { username: string, idRoom: string } = { username: '', idRoom: '' };
-  form!: FormGroup;
   router = inject(Router);
 
   constructor(
     private toastr: ToastrService,
-    private fb: FormBuilder,
     private chatService: ChatService
   ) { }
 
   ngOnInit() {
     this.getRandomNumbers();
-    this.form = this.fb.group({
-
-    })
   }
 
   getRandomNumbers() {
@@ -52,7 +47,7 @@ export class HomeComponent implements OnInit {
     this.data.username = this.username;
     this.data.idRoom = this.randomIdRoom;
 
-    this.joinRoom(this.data.username, this.data.idRoom)
+    this.joinRoom(this.data.username.trim(), this.data.idRoom.trim())
   }
 
   searchRoom(event: any) {
@@ -69,7 +64,6 @@ export class HomeComponent implements OnInit {
         progressBar: true,
         closeButton: true,
       });
-
       return;
     }
 
@@ -81,13 +75,12 @@ export class HomeComponent implements OnInit {
   joinRoom(user: string, room: string) {
     sessionStorage.setItem("user", user);
     sessionStorage.setItem("room", room);
-    this.chatService.joinRoom(user, room)
+    this.chatService.joinRoom(user.trim(), room.trim())
       .then(() => {
         this.router.navigate(['/chat']);
       }).catch((err) => {
         console.log(err);
       });
-
   }
 
 }

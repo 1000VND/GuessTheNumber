@@ -1,6 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { take } from 'rxjs';
 import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
@@ -8,12 +10,13 @@ import { ChatService } from 'src/app/services/chat.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollMe') private scrollContainer!: ElementRef;
   inputMessage = "";
   messages: any[] = [];
   loggedInUserName = sessionStorage.getItem("user");
   roomName = sessionStorage.getItem("room");
+  imageUrl: string = 'assets/man-user-profile-';
 
   constructor(
     public chatService: ChatService,
@@ -22,11 +25,26 @@ export class ChatComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.chatService.messagesTest.subscribe(res => {
+    let random = Math.floor(Math.random() * 3) + 1;
+    this.imageUrl = this.imageUrl + random + '.png';
+
+    const user = sessionStorage.getItem('user') ?? '';
+    const room = sessionStorage.getItem('room') ?? '';
+
+    if (user && room) {
+      this.chatService.joinRoom(user.trim(), room.trim())
+        .then(() => {
+          this.router.navigate(['/chat']);
+        }).catch((err) => {
+          console.log(err);
+        });
+    }
+
+    this.chatService.messagesList$.subscribe(res => {
       this.messages = res;
     });
 
-    this.chatService.connectedUsers$.subscribe()
+    this.chatService.connectedUsers$.subscribe();
   }
 
   ngAfterViewChecked(): void {
@@ -53,5 +71,4 @@ export class ChatComponent implements OnInit {
         this.toastr.error(err, 'Có lỗi xảy ra');
       })
   }
-
 }

@@ -1,6 +1,6 @@
 <div class="container mt-5">
   <div class="chat_header">
-    <h3 class="text-center my-2">Welcome to <span class="text-warning">{{roomName}}</span> Group</h3>
+    <h3 class="text-center my-2">Chào mừng đến phòng số: <span class="text-error">{{roomName}}</span></h3>
     <button (click)="leaveChat()" class="btn btn-danger">Rời khỏi phòng</button>
   </div>
   <div class="messaging">
@@ -21,10 +21,9 @@
         </div>
         <div class="inbox_chat">
           <ng-container *ngFor="let user of chatService.connectedUsers$ | async">
-
             <div class="chat_list">
               <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                <div class="chat_img"> <img [src]="imageUrl" alt="sunil"> </div>
                 <div class="chat_ib mt-3">
                   <h5>{{user}} <span class="online"></span></h5>
                 </div>
@@ -35,21 +34,26 @@
       </div>
       <div class="mesgs">
         <div #scrollMe class="msg_history">
-          <ng-container *ngFor="let message of chatService.messagesTest | async">
+          <ng-container *ngFor="let message of chatService.messagesList$ | async">
             <div
-              [ngClass]="{'incoming_msg': message.user != loggedInUserName, 'outgoing_msg': message.user === loggedInUserName}">
+              [ngClass]="{'incoming_msg pb-3': message.user != loggedInUserName && message.user === 'Bot', 'outgoing_msg': message.user === loggedInUserName}">
               <div *ngIf="message.user != loggedInUserName" class="incoming_msg_img">
-                <img src="https://ptetutorials.com/images/user-profile.png">
+                <img *ngIf="message.user === 'Bot'" src="assets/bot.png">
+                <img *ngIf="message.user !== 'Bot'" [src]="imageUrl">
               </div>
               <div *ngIf="message.user != loggedInUserName" class="received_msg">
                 <div class="received_withd_msg">
                   <p> {{message.message}}</p>
-                  <span class="time_date">{{message.user}} đã gửi lúc {{message.messageTime | date: 'dd MM yyyy HH:mm aa'}}</span>
+                  <span *ngIf="message.user !== 'Bot'" class="time_date">
+                    {{message.user}} đã gửi lúc {{message.messageTime | date: 'dd MM yyyy HH:mm aa'}}
+                  </span>
                 </div>
               </div>
               <div *ngIf="message.user === loggedInUserName" class="sent_msg">
                 <p>{{message.message}}</p>
-                <span class="time_date">{{message.user}} đã gửi lúc {{message.messageTime | date: 'dd MM yyyy HH:mm aa'}}</span>
+                <span class="time_date">
+                  {{message.user}} đã gửi lúc {{message.messageTime | date: 'dd MM yyyy HH:mm aa'}}
+                </span>
               </div>
             </div>
           </ng-container>

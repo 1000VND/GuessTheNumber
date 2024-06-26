@@ -251,3 +251,7 @@ img {
 input.write_msg{
     border: 1px solid #060606;
 }
+
+span.text-error{
+    color: red;
+}
