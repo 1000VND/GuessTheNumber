@@ -13,9 +13,7 @@ pipeline {
         // ==================== Checkout Code ====================
         stage('Clone Repository') {
             steps {
-                dir(PROJECT_DIR) {
-                    checkout scm
-                }
+                checkout scm
             }
         }
     }
