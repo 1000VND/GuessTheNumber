@@ -10,7 +10,7 @@ pipeline {
     }
 
     stages {
-        // ==================== Checkout Code ====================
+        // ==================== Checkout Code ==================== 
         stage('Clone Repository') {
             steps {
                 checkout scm
