@@ -1,10 +1,12 @@
 pipeline {
     agent any
     stages {
-        stage('Clone Repository') {
+        // ==================== Checkout Code ====================
+        stage('Clone Repository') { 
+
             steps {
-                // Sử dụng cấu hình SCM trong Jenkins để lấy mã nguồn
                 checkout scm
+                sh 'git clone https://github.com/1000VND/GuessTheNumber.git'
                 echo 'Clone repository successfully'
             }
         }
