@@ -2,7 +2,7 @@ pipeline {
     agent any
     stages {
         // ==================== Checkout Code ====================
-        stage('Clone Repositor') { 
+        stage('Clone Repository') { 
 
             steps {
                 checkout scm
