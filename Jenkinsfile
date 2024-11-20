@@ -3,11 +3,10 @@ pipeline {
     stages {
         // ==================== Checkout Code ====================
         stage('Clone Repository') { 
-
             steps {
-                checkout scm
+                sh 'rm -rf GuessTheNumber'
                 sh 'git clone https://github.com/1000VND/GuessTheNumber.git'
-                echo 'Clone repository successfully'
+                checkout scm
             }
         }
     }
